@@ -1,14 +1,12 @@
-# Full Stack -kurssin palautukset
+# Full Stack Course Projects
 
-Tämä repositorio sisältää Full Stack -kurssin harjoitustehtävät.
+This repository contains my solutions and exercises from a university Full Stack development course.  
+Each folder corresponds to a course part and includes the required assignments.
 
-## Sisältö
-- osa0 — kurssin ensimmäisen osan tehtävät
-- osa1 — toisen osan tehtävät
-- osa2 — kolmannen osan tehtävät
+## Structure
+- osa0 — fundamentals
+- osa1 — basics of React
+- osa2 — advanced React
 
-## Tekijä
+## Author
 Reetta Virtanen
-
-## Huomio
-Tämä repositorio on tehty kurssin palautuksia varten.

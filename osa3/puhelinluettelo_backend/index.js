@@ -1,7 +1,6 @@
 const express = require('express')
 const morgan = require('morgan')
 const app = express()
-const cors = require('cors') //3.9.
 
 let persons = [
   { id: '1', name: 'Arto Hellas', number: '044-123456' },
@@ -21,7 +20,6 @@ const requestLogger = (request, response, next) => {
 app.use(express.json())
 app.use(requestLogger)
 app.use(morgan('tiny')) //3.7. morganin lisääminen
-app.use(cors()) //3.9.
 app.use(express.static('dist'))
 
 app.get('/', (request, response) => {

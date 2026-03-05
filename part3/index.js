@@ -1,7 +1,6 @@
 //const http = require('http') //ottaa käyttöön Noden sisäänrakennetun web-palvelimen määrittelevän moduulin
 const express = require('express')
 const app = express()
-const cors = require('cors')
 
 let notes = [
   {
@@ -31,7 +30,6 @@ const requestLogger = (request, response, next) => {
 
 app.use(express.json())
 app.use(requestLogger)
-app.use(cors())
 app.use(express.static('dist'))
 
 app.get('/', (request, response) => {

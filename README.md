@@ -7,6 +7,7 @@ Each folder corresponds to a course part and includes the required assignments.
 - osa0 — fundamentals
 - osa1 — basics of React
 - osa2 — advanced React
+- osa3 - https://puhelinluettelo-z3tp.onrender.com/
 
 ## Author
 Reetta Virtanen

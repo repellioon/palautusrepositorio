@@ -1,13 +1,10 @@
+require('dotenv').config()
 const express = require('express')
 const morgan = require('morgan')
-const app = express()
 
-let persons = [
-  { id: '1', name: 'Arto Hellas', number: '044-123456' },
-  { id: '2', name: 'Ada Lovelace', number: '044-1977654' },
-  { id: '3', name: 'Dan Abramov', number: '009-7899764' },
-  { id: '4', name: 'Mary Poppendieck', number: '98-67-087643' },
-]
+const Person = require('./models/person')
+
+const app = express()
 
 const requestLogger = (request, response, next) => {
   console.log('Method:', request.method)
@@ -25,40 +22,39 @@ app.use(express.static('dist'))
 app.get('/', (request, response) => {
   response.send('<h1>Hello World!</h1>')
 })
-//3.1 taulukko puhelinnumerotiedoista
-app.get('/api/persons', (request, response) => {
-  response.json(persons)
-})
-//3.3. yksittäisen puhelinnumeron näyttäminen
-app.get('/api/persons/:id', (request, response) => {
-  const id = request.params.id
-  const person = persons.find((person) => person.id === id)
 
-  if (person) {
+//3.13.
+app.get('/api/persons', (request, response) => {
+  Person.find({}).then(persons => {
+    response.json(persons)
+  })
+})
+
+//3.3., 3.13. yksittäisen puhelinnumeron näyttäminen
+app.get('/api/persons/:id', (request, response) => {
+  Person
+    .findById(request.params.id)
+    .then(person => {
     response.json(person)
-  } else {
-    response.status(404).end()
-  }
+  })
 })
 
 // 3.2: info-sivu
 app.get('/info', (request, response) => {
-  const maara = persons.length
-  const nyt = new Date()
+  Person.find({}).then(persons => {
+    const maara = persons.length
+    const nyt = new Date()
 
-  response.send(`
-    <div>
-      <p>Phonebook has info for ${maara} people</p>
-      <p>${nyt}</p>
-    </div>
-  `)
+    response.send(`
+      <div>
+        <p>Phonebook has info for ${maara} people</p>
+        <p>${nyt}</p>
+      </div>
+    `)
+  })
 })
 
-const generateId = () => {
-  const maxId = 1000000
-  return Math.floor(Math.random() * maxId) + 1
-}
-//3.5. + 3.6. tietojen lisäys
+//3.5. + 3.6. + 3.13.-.14 tietojen lisäys
 app.post('/api/persons', (request, response) => {
   const body = request.body
 
@@ -69,35 +65,30 @@ app.post('/api/persons', (request, response) => {
     return response.status(400).json({ error: 'number missing' })
   }
 
-// 3.6: nimen pitää olla uniikki 
-  const sameName = persons.some(p => p.name === body.name)
-  if (sameName) {
-    return response.status(400).json({ error: 'name must be unique' })
-  }
-
-// 3.5: id Math.randomilla
-  let id = generateId()
-// varmistetaan ettei osu olemassaolevaan (varmuuden vuoksi)
-  while (persons.some(p => p.id === id)) {
-    id = generateId()
-  }
-
-  const person = {
+  const person = new Person ({
     name: body.name,
     number: body.number,
-    id: generateId(),
-  }
+  })
 
-  persons = persons.concat(person)
-  response.status(201).json(person)
+  person.save().then(savedPerson => {
+      response.json(savedPerson)
+    })
+
+// 3.6: nimen pitää olla uniikki 
+  /*const sameName = persons.some(p => p.name === body.name)
+  if (sameName) {
+    return response.status(400).json({ error: 'name must be unique' })
+  }*/
+
+  //persons = persons.concat(person)
+  //response.status(201).json(person)
 })
 
 //3.4. tiedon poistaminen HTTP DELETE pyynnöllä
 app.delete('/api/persons/:id', (request, response) => {
-  const id = request.params.id
-  persons = persons.filter((person) => person.id !== id)
-
-  response.status(204).end()
+  Person.findByIdAndDelete(request.params.id).then(() => {
+    response.status(204).end()
+  })
 })
 
 const unknownEndpoint = (request, response) => {
@@ -106,7 +97,7 @@ const unknownEndpoint = (request, response) => {
 
 app.use(unknownEndpoint)
 
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })

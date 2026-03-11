@@ -22,8 +22,10 @@ const Person = mongoose.model('Person', personSchema)
 
 // Jos annettu vain salasana, listataan kaikki henkilöt
 if (process.argv.length === 3) {
-  Person.find({}).then(result => {
-    console.log('phonebook:')
+  Person
+    .find({})
+    .then(result => {
+    console.log('Phonebook:')
     result.forEach(person => {
       console.log(`${person.name} ${person.number}`)
     })

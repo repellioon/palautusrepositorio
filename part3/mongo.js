@@ -19,10 +19,10 @@ const noteSchema = new mongoose.Schema({
 
 const Note = mongoose.model('Note', noteSchema)
 
-/*const note = new Note({ //muistiinpano-olio
-  content: 'HTML is easy',
+const note = new Note({ //muistiinpano-olio
+  content: 'Mongoose makes use of mongo easy',
   important: true,
-})*/
+})
 
 Note.find({}).then(result => {
   result.forEach(note => {
@@ -31,8 +31,8 @@ Note.find({}).then(result => {
   mongoose.connection.close()
 })
 
-/*//tallennus tietokantaan metodilla save
+//tallennus tietokantaan metodilla save
 note.save().then(result => { //tallennusoperaation tulos on takaisinkutsun parametrissa 'result'
   console.log('note saved!')
   mongoose.connection.close() //komennolla suljetaan tietokantaan yhteys
-})*/
+})

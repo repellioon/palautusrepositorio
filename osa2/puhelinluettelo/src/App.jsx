@@ -82,34 +82,30 @@ const App = () => {
         number : newNumber
       }
     
-      personService
-      .update(existingPerson.id, updatedPerson)
-      .then(returnedPerson => {
-        setPersons(
-          persons.map(person =>
-            person.id !== existingPerson.id ? person : returnedPerson
-          )
-        )
-        setNewName('')
-        setNewNumber('')
-        setNotification('')
-        showNotification(`Changed ${existingPerson.name} information`, 'success')
-          setTimeout(() => {
-          setNotification(null)
-        }, 5000)
-      })
-
-      .catch(() => {
-        setNotification(
-          `Information of ${updatedPerson.name} has already been removed from server`,
-          'error'
-        )
-        setTimeout(() => {
-          setNotification(null)
-        }, 5000)
-        setPersons(persons.filter(p => p.id !== id))
-      })
+personService
+  .update(existingPerson.id, updatedPerson)
+  .then(returnedPerson => {
+    setPersons(
+      persons.map(person =>
+        person.id !== existingPerson.id ? person : returnedPerson
+      )
+    )
+    setNewName('')
+    setNewNumber('')
+    showNotification(`Changed ${existingPerson.name} information`, 'success')
+  })
+  .catch(error => {
+    if (error.response?.data?.error) {
+      showNotification(error.response.data.error, 'error')
+    } else {
+      showNotification(
+        `Information of ${updatedPerson.name} has already been removed from server`,
+        'error'
+      )
+      setPersons(persons.filter(p => p.id !== existingPerson.id))
     }
+  })
+  }
     return
   }
 
@@ -118,18 +114,26 @@ const App = () => {
       number: newNumber,
     }
 
-    personService
-      .create(newObject)
-      .then(returnedPerson => {
-        setPersons(persons.concat(returnedPerson))
-        setNewName('')
-        setNewNumber('')
-        showNotification(`Added ${returnedPerson.name}`, 'success')
-          setTimeout(() => {
-          setNotification(null)
-        }, 5000)
-      })
-    }
+personService
+  .create(newObject)
+  .then(returnedPerson => {
+    setPersons(persons.concat(returnedPerson))
+    setNewName('')
+    setNewNumber('')
+    showNotification(`Added ${returnedPerson.name}`, 'success')
+    setTimeout(() => {
+      setNotification(null)
+    }, 5000)
+  })
+  .catch(error => {
+    console.log(error.response.data)
+    showNotification(error.response.data.error, 'error')
+    setTimeout(() => {
+      setNotification(null)
+    }, 5000)
+  })
+      
+  }
   
   const handleNameChange = (event) => {
     console.log(event.target.value)

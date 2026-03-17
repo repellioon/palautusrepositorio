@@ -25,12 +25,12 @@ if (process.argv.length === 3) {
   Person
     .find({})
     .then(result => {
-    console.log('Phonebook:')
-    result.forEach(person => {
-      console.log(`${person.name} ${person.number}`)
+      console.log('Phonebook:')
+      result.forEach(person => {
+        console.log(`${person.name} ${person.number}`)
+      })
+      mongoose.connection.close()
     })
-    mongoose.connection.close()
-  })
 }
 
 // Jos annettu salasana, nimi ja numero, lisätään uusi henkilö

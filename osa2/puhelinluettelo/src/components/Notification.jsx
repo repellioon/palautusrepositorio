@@ -10,4 +10,5 @@ const Notification = ({ message, type }) => {
   )
 }
 
+
 export default Notification

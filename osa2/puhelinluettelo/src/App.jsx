@@ -131,9 +131,8 @@ personService
     setTimeout(() => {
       setNotification(null)
     }, 5000)
-  })
-      
-  }
+  }) 
+}
   
   const handleNameChange = (event) => {
     console.log(event.target.value)

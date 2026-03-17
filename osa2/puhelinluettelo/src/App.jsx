@@ -127,23 +127,12 @@ personService
     }, 5000)
   })
   .catch(error => {
-  console.log('KOKO ERROR:', error)
-  console.log('RESPONSE:', error.response)
-  console.log('DATA:', error.response?.data)
-  console.log('ERROR:', error.response?.data?.error)
-
-  showNotification(
-    error.response?.data?.error || 'Virhe tuli, mutta error-kenttä puuttuu',
-    'error'
-  )
-})
-  /** .catch(error => {
     console.log(error.response.data)
     showNotification(error.response.data.error, 'error')
     setTimeout(() => {
       setNotification(null)
     }, 5000)
-  }) */
+  }) 
 }
   
   const handleNameChange = (event) => {
@@ -175,7 +164,6 @@ personService
       <h2>Phonebook</h2>
       
       <Notification message = {notification} type = {notificationType} />
-      <pre>{JSON.stringify({ notification, notificationType }, null, 2)}</pre>
       <Filter searchQuery = {searchQuery} handleSearch = {handleSearch} />
       
       <h2>add a new</h2>

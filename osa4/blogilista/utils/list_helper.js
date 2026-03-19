@@ -1,28 +1,16 @@
 const dummy = (blogs) => {
-    
-    const bloglist = [
-        {
-            title: "coding is fun",
-            author: "Reetta V",
-            url: "www.reettav.fi",
-            likes: 5
-        },
-                {
-            title: "cooking is fun",
-            author: "Pirjo",
-            url: "www.pirjo.fi",
-            likes: 2
-        },
-                {
-            title: "where to eat",
-            author: "Misso",
-            url: "www.misso.fi",
-            likes: 3
-        }
-    ]
     return 1
 }
 
+const totalLikes = (bloglist) => {
+
+const likes = bloglist.reduce(
+    (accumlator, blogs) => accumlator + blogs.likes, 
+    0, )
+return likes
+}
+
 module.exports = {
-    dummy
+    dummy,
+    totalLikes
 }

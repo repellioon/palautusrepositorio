@@ -28,8 +28,8 @@ const note = new Note({ //muistiinpano-olio
   important: true,
 })
 
-Note.find({}).then(result => {
-  result.forEach(note => {
+Note.find({}).then((result) => {
+  result.forEach((note) => {
     console.log(note)
   })
   mongoose.connection.close()
